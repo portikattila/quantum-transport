@@ -1,6 +1,6 @@
+#import libraries
 import numpy as np
 import scipy as sp
-
 import matplotlib
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
@@ -43,7 +43,7 @@ class dirty_edge_QWZ_model:
         self.U = self.d * self.sigma_z
         Hu = np.kron(np.eye(self.L), self.U)
         
-        #unit cell
+        #one unit cell
         h0 = np.eye(self.L, k=1)
         H0 = np.matrix(np.kron(h0, self.T_x))
         self.H0 = Hu + H0 + H0.H
@@ -56,7 +56,7 @@ class dirty_edge_QWZ_model:
         
     
     def lead_spectrum(self, K):
-        '''calculate the spectrum as a function of mumentum'''
+        '''calculate the lead's spectrum as a function of mumentum'''
         #create lead
         self.create_lead()
         
@@ -267,7 +267,7 @@ class dirty_edge_QWZ_model:
 
         
     def LDOS(self, E, delta=-1, alpha=1, W=None, V_size=(6,3), V_pos=None, **kwargs):
-        ''''''
+        '''Local density of states as a function of energy'''
         
         
         self.U = delta * self.sigma_z
@@ -320,6 +320,7 @@ I1 = interactive(plot_lead_spectrum,
 
 
 def plot_dens(n=10,delta=-1):
+    '''plot particle particle density for different selfenergies'''
     QWZ = dirty_edge_QWZ_model(20,delta)
     QWZ.create_lead()
     QWZ.create_hamiltonian(20,100,(5,6))
@@ -366,10 +367,11 @@ I2 = interactive(plot_dens,
 
 
 def LDoS_ene_delta(ene=-0.5, delta=-1): 
+    ''' LDoS as a function of energy and parameter delta'''
     ene=ene+1e-8*1j
     QWZ = dirty_edge_QWZ_model(L = 20, delta = delta)
     ldos = QWZ.LDOS(E = ene, V_size = (5,5), V_pos = (8,0), cut = True)
-    ldos[1:-1,:][QWZ.lattice_index.reshape((QWZ.L, QWZ.L))]=0
+    ldos[1:-1,:][QWZ.lattice_index.reshape((QWZ.L, QWZ.L))]=0 
 
     fig,axes = plt.subplots(1,2, figsize=(2*8, 8*((QWZ.W+2)/QWZ.L)))
     
@@ -408,7 +410,7 @@ I3 = interactive(LDoS_ene_delta,
 
 
 def LDoS_y_l_w(y = 8, w = 5, l = 5): 
-    ''' '''
+    ''' LDoS as a function of position and size of the dirt'''
     QWZ = dirty_edge_QWZ_model(L = 20, delta = -1)
     ldos = QWZ.LDOS(-0.5, V_size = (w,l), V_pos = (y,0), cut = True)
     try:
@@ -461,7 +463,7 @@ I4 = interactive(LDoS_y_l_w,
 
 
 def LDoS_alpha(a): 
-    ''' '''
+    ''' LDoS as a function of alpha'''
     QWZ = dirty_edge_QWZ_model(L = 20, delta = -1)
     ldos = QWZ.LDOS(-0.5, alpha=a, V_size = (15,3), V_pos = (8,0), random = True)
     if a > 0: ldos[1:-1,:][QWZ.lattice_index.reshape((QWZ.L, QWZ.L))]=0
