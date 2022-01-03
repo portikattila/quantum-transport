@@ -406,7 +406,7 @@ def LDoS_ene_delta(ene=-0.5, delta=-1):
     
 I3 = interactive(LDoS_ene_delta, 
                  ene = FloatSlider(value = -0.5, min = -4, max = 4, step = 0.01, description='E', continuous_update=False), 
-                 delta = FloatSlider(value = -1, min = -2, max = -1, step = 0.01, description='$\Delta$', continuous_update=False))
+                 delta = FloatSlider(value = -1, min = -3, max = -1, step = 0.01, description='$\Delta$', continuous_update=False))
 
 
 def LDoS_y_l_w(y = 8, w = 5, l = 5): 
